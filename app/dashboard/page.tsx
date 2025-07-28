@@ -136,6 +136,30 @@ export default function Dashboard() {
               </Button>
             </CardContent>
           </Card>
+
+          {/* Manage Certificates (Edit) */}
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle className="flex items-center text-lg">
+                <Edit className="h-6 w-6 mr-3 text-orange-600" />
+                Sertifika Düzenle
+              </CardTitle>
+              <CardDescription>
+                Oluşturduğunuz veya yönettiğiniz sertifikaları düzenleyin
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button 
+                size="lg" 
+                className="w-full"
+                variant="outline"
+                onClick={() => router.push("/certificates/manage")}
+              >
+                <Edit className="h-4 w-4 mr-2" />
+                Sertifikaları Düzenle
+              </Button>
+            </CardContent>
+          </Card>
         </div>
       </main>
     </div>

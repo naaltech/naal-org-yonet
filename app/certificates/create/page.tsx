@@ -122,9 +122,9 @@ export default function CreateCertificate() {
       if (found) {
         setClub({
           title: found.title,
-          owners: Array.isArray(found.owners) ? found.owners : (typeof found.owners === 'string' && found.owners !== undefined && found.owners !== null ? found.owners.split(',').map((s: string) => s.trim()).filter((s: string) => s) : []),
-          instagram: Array.isArray(found.instagram) ? found.instagram : (typeof found.instagram === 'string' && found.instagram !== undefined && found.instagram !== null ? found.instagram.split(',').map((s: string) => s.trim()).filter((s: string) => s) : []),
-          urls: Array.isArray(found.urls) ? found.urls : (typeof found.urls === 'string' && found.urls !== undefined && found.urls !== null ? found.urls.split(',').map((s: string) => s.trim()).filter((s: string) => s) : []),
+          owners: Array.isArray(found.owners) ? found.owners : (typeof (found.owners as string | undefined) === 'string' && found.owners !== undefined && found.owners !== null ? (found.owners as string).split(',').map((s: string) => s.trim()).filter((s: string) => s) : []),
+          instagram: Array.isArray(found.instagram) ? found.instagram : (typeof (found.instagram as string | undefined) === 'string' && found.instagram !== undefined && found.instagram !== null ? (found.instagram as string).split(',').map((s: string) => s.trim()).filter((s: string) => s) : []),
+          urls: Array.isArray(found.urls) ? found.urls : (typeof (found.urls as string | undefined) === 'string' && found.urls !== undefined && found.urls !== null ? (found.urls as string).split(',').map((s: string) => s.trim()).filter((s: string) => s) : []),
         })
         setDigitalFormData(prev => ({ ...prev, creator: found.title }))
         setPdfFormData(prev => ({ ...prev, creator: found.title }))
@@ -224,8 +224,9 @@ export default function CreateCertificate() {
           given: pdfFormData.given.trim(),
           cert_name: pdfFormData.cert_name.trim(),
           pdf_link: pdfFormData.pdf_link.trim(),
-          creator: user?.email === 'admin@naal.org.tr' ? selectedClubTitle : (pdfFormData.creator.trim() || club.title),
-          uploader_mail: user?.email || ''
+          from: user?.email === 'admin@naal.org.tr' ? selectedClubTitle : (pdfFormData.creator.trim() || club.title),
+          uploader_mail: user?.email || '',
+          // date alanı opsiyonel, eklenmek istenirse pdfFormData'da tutulmalı
         })
 
       if (error) {
@@ -250,21 +251,33 @@ export default function CreateCertificate() {
     }
   }
 
-  const uploadToCatbox = async (file: File): Promise<string> => {
-    const formData = new FormData()
-    formData.append('fileToUpload', file)
-    formData.append('reqtype', 'fileupload')
+  // Discord Webhook URL (env'den alınır)
+  const DISCORD_WEBHOOK_URL = process.env.NEXT_PUBLIC_DISCORD_WEBHOOK_URL || ''
 
-    const response = await fetch('https://catbox.moe/user/api.php', {
+  // Discord'a dosya yükle ve dosya URL'sini döndür
+  const uploadToDiscord = async (file: File): Promise<string> => {
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('payload_json', JSON.stringify({
+      content: 'Yeni bir PDF yüklendi.'
+    }))
+
+    const response = await fetch(DISCORD_WEBHOOK_URL, {
       method: 'POST',
       body: formData
     })
 
     if (!response.ok) {
-      throw new Error('Upload failed')
+      throw new Error('Discord yükleme başarısız')
     }
 
-    return await response.text() // Catbox direkt URL döner
+    // Discord, yüklenen dosyanın URL'sini dönen mesajda "attachments" içinde verir
+    const data = await response.json()
+    if (data.attachments && data.attachments.length > 0) {
+      return data.attachments[0].url
+    } else {
+      throw new Error('Discord dosya URLsi alınamadı')
+    }
   }
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -286,12 +299,13 @@ export default function CreateCertificate() {
 
     setUploading(true)
     try {
-      const uploadedUrl = await uploadToCatbox(file)
+      // Discord'a yükle
+      const uploadedUrl = await uploadToDiscord(file)
       setPdfFormData(prev => ({ ...prev, pdf_link: uploadedUrl }))
-      setMessage({ type: 'success', text: 'PDF dosyası başarıyla yüklendi!' })
+      setMessage({ type: 'success', text: 'PDF dosyası başarıyla Discord kanalına yüklendi!' })
     } catch (error) {
       console.error('Upload error:', error)
-      setMessage({ type: 'error', text: 'PDF yükleme hatası' })
+      setMessage({ type: 'error', text: 'Discord yükleme hatası' })
     } finally {
       setUploading(false)
     }
