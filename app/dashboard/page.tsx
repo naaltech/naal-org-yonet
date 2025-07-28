@@ -160,6 +160,30 @@ export default function Dashboard() {
               </Button>
             </CardContent>
           </Card>
+
+          {/* URL Shortener */}
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle className="flex items-center text-lg">
+                <Edit className="h-6 w-6 mr-3 text-pink-600" />
+                URL Kısaltıcı
+              </CardTitle>
+              <CardDescription>
+                Kulübünüz için özel kısa URL'ler oluşturun ve yönetin
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button 
+                size="lg" 
+                className="w-full"
+                variant="outline"
+                onClick={() => router.push("/urls/manage")}
+              >
+                <Edit className="h-4 w-4 mr-2" />
+                URL Kısaltıcıya Git
+              </Button>
+            </CardContent>
+          </Card>
         </div>
       </main>
     </div>
