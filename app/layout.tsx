@@ -7,9 +7,7 @@ import { AuthProvider } from "@/contexts/auth-context"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Club Admin Panel",
-  description: "Admin panel for club management",
-    generator: 'v0.dev'
+  title: "Nevzat Ayaz Etkileşim Ağı | Yönetici Arayüzü",
 }
 
 export default function RootLayout({
