@@ -254,66 +254,33 @@ export default function CreateCertificate() {
 
   // Catbox.moe'a dosya yükle ve dosya URL'sini döndür
   const uploadToCatbox = async (file: File): Promise<string> => {
-    try {
-      const formData = new FormData()
-      formData.append('reqtype', 'fileupload')
-      formData.append('fileToUpload', file)
-      
-      // Environment'tan userhash al
-      const userHash = process.env.NEXT_PUBLIC_CATBOX_USERHASH
-      if (userHash) {
-        formData.append('userhash', userHash)
-      }
-      
-      console.log('Catbox upload started:', { fileName: file.name, fileSize: file.size, hasUserHash: !!userHash })
+    const formData = new FormData()
+    formData.append('file', file)
 
-      let response = await fetch('https://catbox.moe/user/api.php', {
+    console.log('Uploading via API route:', { fileName: file.name, fileSize: file.size })
+
+    try {
+      const response = await fetch('/api/upload', {
         method: 'POST',
-        body: formData
+        body: formData,
       })
 
-      console.log('Catbox response status:', response.status)
-      
-      let responseText = await response.text()
-      console.log('Catbox response text:', responseText)
-
-      // Eğer başarısız olursa ve userhash varsa, userhash olmadan tekrar dene
-      if (!response.ok || !responseText.trim()) {
-        console.log('Trying without userhash...')
-        const formDataWithoutHash = new FormData()
-        formDataWithoutHash.append('reqtype', 'fileupload')
-        formDataWithoutHash.append('fileToUpload', file)
-        
-        response = await fetch('https://catbox.moe/user/api.php', {
-          method: 'POST',
-          body: formDataWithoutHash
-        })
-        
-        responseText = await response.text()
-        console.log('Catbox response without hash:', responseText)
-      }
+      const result = await response.json()
 
       if (!response.ok) {
-        throw new Error(`Catbox HTTP error: ${response.status} - ${responseText}`)
+        throw new Error(result.error || `HTTP error! status: ${response.status}`)
       }
 
-      const url = responseText.trim()
-      
-      // Catbox farklı URL formatları döndürebilir
-      if (url && (url.startsWith('https://files.catbox.moe/') || url.startsWith('https://catbox.moe/'))) {
-        console.log('Upload successful:', url)
-        return url
-      } else if (url && url.includes('catbox')) {
-        // Bazen farklı format döner, onu da kabul et
-        console.log('Upload successful (alternate format):', url)
-        return url
+      console.log('API response:', result)
+
+      if (result.url) {
+        return result.url
       } else {
-        console.error('Invalid URL format:', url)
-        throw new Error(`Geçersiz Catbox yanıtı: ${url}`)
+        throw new Error('No URL returned from upload API')
       }
     } catch (error) {
-      console.error('Catbox upload error:', error)
-      throw error
+      console.error('Upload API error:', error)
+      throw new Error(`Upload failed: ${error instanceof Error ? error.message : 'Unknown error'}`)
     }
   }
 

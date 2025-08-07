@@ -155,24 +155,21 @@ export default function ClubInfoPage() {
     }
   }
 
-  const uploadToImgur = async (file: File): Promise<string> => {
+  const uploadToIBB = async (file: File): Promise<string> => {
     const formData = new FormData()
     formData.append('image', file)
 
-    const response = await fetch('https://api.imgur.com/3/image', {
+    const response = await fetch('/api/upload-image', {
       method: 'POST',
-      headers: {
-        'Authorization': 'Client-ID 27fcd9fe10ec224' // Public Imgur client ID
-      },
       body: formData
     })
 
     const data = await response.json()
     
     if (data.success) {
-      return data.data.link
+      return data.url
     } else {
-      throw new Error('Imgur upload failed')
+      throw new Error(data.error || 'IBB upload failed')
     }
   }
 
@@ -194,7 +191,7 @@ export default function ClubInfoPage() {
 
     setUploadingLogo(true)
     try {
-      const logoUrl = await uploadToImgur(file)
+      const logoUrl = await uploadToIBB(file)
       setFormData(prev => ({ ...prev, logo: logoUrl }))
       setMessage({ type: 'success', text: 'Logo başarıyla yüklendi' })
     } catch (error) {
