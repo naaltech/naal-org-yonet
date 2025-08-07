@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useAuth } from '@/contexts/auth-context'
+import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -9,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog'
 import { Label } from '@/components/ui/label'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import { ArrowLeft, Settings, LogOut } from 'lucide-react'
 
 interface Cert {
   id: number
@@ -44,7 +46,8 @@ type EditType = {
 }
 
 export default function ManageCertificates() {
-  const { user } = useAuth()
+  const { user, signOut } = useAuth()
+  const router = useRouter()
   const [certs, setCerts] = useState<Cert[]>([])
   const [certPdfs, setCertPdfs] = useState<CertPdf[]>([])
   const [loading, setLoading] = useState(true)
@@ -132,11 +135,73 @@ export default function ManageCertificates() {
     }
   }
 
+  const handleLogout = async () => {
+    await signOut()
+    router.push("/login")
+  }
+
   if (!user) return <div>Yükleniyor...</div>
 
   return (
-    <div className="max-w-4xl mx-auto py-8 px-4">
-      <Card>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 relative">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gray-200 rounded-full mix-blend-multiply filter blur-xl opacity-40"></div>
+        <div className="absolute top-1/3 -left-40 w-96 h-96 bg-slate-200 rounded-full mix-blend-multiply filter blur-xl opacity-30"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-zinc-100 rounded-full mix-blend-multiply filter blur-2xl opacity-50"></div>
+      </div>
+
+      {/* Header */}
+      <header className="relative z-10 backdrop-blur-sm bg-white/80 shadow-lg border-b border-gray-200/50">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20">
+            <div className="flex items-center">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => router.push('/dashboard')}
+                className="mr-4 hover:bg-gray-100 transition-all duration-200"
+              >
+                <ArrowLeft className="h-5 w-5 mr-2" />
+                Ana Sayfa
+              </Button>
+              <div className="p-3 bg-gradient-to-br from-gray-800 to-gray-600 rounded-xl mr-4 shadow-lg">
+                <Settings className="h-7 w-7 text-white" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">Sertifika Yönetimi</h1>
+                <p className="text-sm text-gray-600">Sertifikalarınızı düzenleyin ve yönetin</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <div className="hidden md:flex items-center space-x-3">
+                <div className="text-right">
+                  <p className="text-sm font-medium text-gray-900">Hoş geldiniz</p>
+                  <p className="text-xs text-gray-600">{user?.email}</p>
+                </div>
+                <div className="w-10 h-10 bg-gradient-to-br from-gray-600 to-gray-800 rounded-full flex items-center justify-center shadow-lg">
+                  <span className="text-white font-semibold text-sm">
+                    {user?.email?.charAt(0).toUpperCase()}
+                  </span>
+                </div>
+              </div>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={handleLogout}
+                className="border-gray-300 hover:bg-gray-50 transition-all duration-200"
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Çıkış
+              </Button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="relative z-10 max-w-4xl mx-auto py-8 px-4">
+      <Card className="backdrop-blur-sm bg-white/80 border-gray-200/50 shadow-xl">
         <CardHeader>
           <CardTitle>Sertifikalarım</CardTitle>
         </CardHeader>
@@ -271,6 +336,7 @@ export default function ManageCertificates() {
           )}
         </DialogContent>
       </Dialog>
+      </main>
     </div>
   )
 } 
