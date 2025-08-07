@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Edit, Trash2, Plus, Copy, ArrowLeft, Settings, LogOut } from 'lucide-react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import CommonHeader from '@/components/common-header'
 
 interface UrlRow {
   id: number
@@ -198,52 +199,11 @@ export default function ManageUrls() {
       </div>
 
       {/* Header */}
-      <header className="relative z-10 backdrop-blur-sm bg-white/80 shadow-lg border-b border-gray-200/50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
-            <div className="flex items-center">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => router.push('/dashboard')}
-                className="mr-4 hover:bg-gray-100 transition-all duration-200"
-              >
-                <ArrowLeft className="h-5 w-5 mr-2" />
-                Ana Sayfa
-              </Button>
-              <div className="p-3 bg-gradient-to-br from-gray-800 to-gray-600 rounded-xl mr-4 shadow-lg">
-                <Settings className="h-7 w-7 text-white" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">URL Kısaltıcı</h1>
-                <p className="text-sm text-gray-600">Kısa URL'lerinizi oluşturun ve yönetin</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="hidden md:flex items-center space-x-3">
-                <div className="text-right">
-                  <p className="text-sm font-medium text-gray-900">Hoş geldiniz</p>
-                  <p className="text-xs text-gray-600">{user?.email}</p>
-                </div>
-                <div className="w-10 h-10 bg-gradient-to-br from-gray-600 to-gray-800 rounded-full flex items-center justify-center shadow-lg">
-                  <span className="text-white font-semibold text-sm">
-                    {user?.email?.charAt(0).toUpperCase()}
-                  </span>
-                </div>
-              </div>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={handleLogout}
-                className="border-gray-300 hover:bg-gray-50 transition-all duration-200"
-              >
-                <LogOut className="h-4 w-4 mr-2" />
-                Çıkış
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <CommonHeader 
+        title="URL Kısaltıcı"
+        description="Kısa URL'lerinizi oluşturun ve yönetin"
+        showBackButton={true}
+      />
 
       {/* Main Content */}
       <main className="relative z-10 max-w-3xl mx-auto py-8 px-4">

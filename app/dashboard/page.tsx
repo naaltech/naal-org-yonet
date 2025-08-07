@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Award, Settings, LogOut, Edit, Plus, Shield } from "lucide-react"
+import CommonHeader from "@/components/common-header"
 
 export default function Dashboard() {
   const { user, signOut, loading } = useAuth()
@@ -48,50 +49,11 @@ export default function Dashboard() {
       </div>
 
       {/* Header */}
-      <header className="relative z-10 backdrop-blur-sm bg-white/80 shadow-lg border-b border-gray-200/50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
-            <div className="flex items-center">
-              <div className="p-3 bg-gradient-to-br from-gray-800 to-gray-600 rounded-xl mr-4 shadow-lg">
-                <Settings className="h-7 w-7 text-white" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">
-                  {isAdmin ? 'Süper Yönetici Arayüzü' : 'Kulüp Yönetici Arayüzü'}
-                </h1>
-                <p className="text-sm text-gray-600">
-                  {isAdmin 
-                    ? 'Nevzat Ayaz Etkileşim Ağı Sistem Yöneticisi' 
-                    : 'Nevzat Ayaz Etkileşim Ağı Kulüp Yönetim Sistemi'
-                  }
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="hidden md:flex items-center space-x-3">
-                <div className="text-right">
-                  <p className="text-sm font-medium text-gray-900">Hoş geldiniz</p>
-                  <p className="text-xs text-gray-600">{user?.email}</p>
-                </div>
-                <div className="w-10 h-10 bg-gradient-to-br from-gray-600 to-gray-800 rounded-full flex items-center justify-center shadow-lg">
-                  <span className="text-white font-semibold text-sm">
-                    {user?.email?.charAt(0).toUpperCase()}
-                  </span>
-                </div>
-              </div>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={handleLogout}
-                className="border-gray-300 hover:bg-gray-50 transition-all duration-200"
-              >
-                <LogOut className="h-4 w-4 mr-2" />
-                Çıkış
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <CommonHeader 
+        title={isAdmin ? 'Süper Yönetici Arayüzü' : 'Kulüp Yönetici Arayüzü'}
+        description={isAdmin ? 'Nevzat Ayaz Etkileşim Ağı Sistem Yöneticisi' : 'Nevzat Ayaz Etkileşim Ağı Kulüp Yönetim Sistemi'}
+        showBackButton={false}
+      />
 
       {/* Main Content */}
       <main className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -106,20 +68,19 @@ export default function Dashboard() {
 
         {/* Admin Info Box */}
         {isAdmin && (
-          <div className="mb-16">
-            <Alert className="backdrop-blur-sm bg-gradient-to-r from-blue-50/80 to-indigo-50/80 border-blue-200/60 shadow-xl max-w-5xl mx-auto rounded-2xl p-8">
-              <div className="flex items-start space-x-6">
-                <div className="flex-shrink-0">
-                  <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
-                    <Shield className="h-10 w-10 text-white" />
+          <div className="mb-8 sm:mb-16">
+            <Alert className="backdrop-blur-sm bg-gradient-to-r from-blue-50/80 to-indigo-50/80 border-blue-200/60 shadow-xl max-w-5xl mx-auto rounded-2xl p-4 sm:p-8">
+              <div className="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6">
+                <div className="flex-shrink-0 self-center sm:self-start">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
+                    <Shield className="h-8 w-8 sm:h-10 sm:w-10 text-white" />
                   </div>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center mb-4">
-                    <Shield className="h-6 w-6 text-blue-600 mr-3" />
-                    <h3 className="text-xl font-bold text-blue-900">Süper Yönetici Yetkileriniz</h3>
+                  <div className="flex flex-col sm:flex-row sm:items-center mb-4 text-center sm:text-left">
+                    <h3 className="text-lg sm:text-xl font-bold text-blue-900">Süper Yönetici Yetkileriniz</h3>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     <div className="space-y-3">
                       <div className="flex items-start">
                         <div className="flex-shrink-0 w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-3 mt-0.5">

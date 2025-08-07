@@ -13,6 +13,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Badge } from '@/components/ui/badge'
 import { Upload, LogOut, Save, Settings } from 'lucide-react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import CommonHeader from '@/components/common-header'
 
 interface Club {
   id: number
@@ -261,33 +262,23 @@ export default function ClubInfoPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 relative">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gray-200 rounded-full mix-blend-multiply filter blur-xl opacity-40"></div>
+        <div className="absolute top-1/3 -left-40 w-96 h-96 bg-slate-200 rounded-full mix-blend-multiply filter blur-xl opacity-30"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-zinc-100 rounded-full mix-blend-multiply filter blur-2xl opacity-50"></div>
+      </div>
+
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <div className="p-2 bg-blue-100 rounded-lg mr-3">
-                <Settings className="h-6 w-6 text-blue-600" />
-              </div>
-              <h1 className="text-xl font-semibold text-gray-900">Kulüp Bilgileri</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Badge variant="secondary">{user.email}</Badge>
-              <Button variant="outline" size="sm" onClick={() => router.push('/dashboard')}>
-                Dashboard
-              </Button>
-              <Button variant="outline" size="sm" onClick={handleLogout}>
-                <LogOut className="h-4 w-4 mr-2" />
-                Çıkış
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <CommonHeader 
+        title="Kulüp Bilgileri"
+        description="Kulüp bilgilerinizi, logonuzu ve sosyal medya hesaplarınızı güncelleyin"
+        showBackButton={true}
+      />
 
       {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {message && (
           <Alert variant={message.type === 'error' ? 'destructive' : 'default'} className="mb-6">
             <AlertDescription>{message.text}</AlertDescription>
@@ -312,14 +303,14 @@ export default function ClubInfoPage() {
         )}
 
         {club && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Kulüp Bilgilerini Düzenle</CardTitle>
-              <CardDescription>
+          <div className="backdrop-blur-sm bg-white/80 rounded-xl shadow-lg border border-gray-200/50 p-6">
+            <div className="mb-6">
+              <h2 className="text-xl font-semibold text-gray-900 mb-2">Kulüp Bilgilerini Düzenle</h2>
+              <p className="text-gray-600">
                 {club.code.toUpperCase()} kulübünün bilgilerini buradan güncelleyebilirsiniz
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
+              </p>
+            </div>
+            <div className="space-y-6">
               {/* Logo */}
               <div className="space-y-2">
                 <Label htmlFor="logo">Logo</Label>
@@ -493,12 +484,16 @@ export default function ClubInfoPage() {
               </div>
 
               {/* Save Button */}
-              <Button onClick={handleSave} disabled={saving} className="w-full">
+              <Button 
+                onClick={handleSave} 
+                disabled={saving} 
+                className="w-full bg-gray-800 hover:bg-gray-900 text-white shadow-md hover:shadow-lg transition-all duration-200"
+              >
                 <Save className="h-4 w-4 mr-2" />
                 {saving ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}
               </Button>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         )}
       </main>
     </div>
