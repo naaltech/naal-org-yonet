@@ -260,6 +260,31 @@ export default function Dashboard() {
             </CardContent>
           </Card>
 
+          {/* Email Merge Guide */}
+          <Card className="backdrop-blur-sm bg-white/80 border-gray-200/50 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 group">
+            <CardHeader className="pb-4">
+              <CardTitle className="flex items-center text-xl group-hover:text-indigo-600 transition-colors">
+                <div className="p-2 bg-indigo-100 rounded-xl mr-4 group-hover:bg-indigo-200 transition-colors">
+                  <Award className="h-6 w-6 text-indigo-600" />
+                </div>
+                E-posta Birleştirme Rehberi
+              </CardTitle>
+              <CardDescription className="text-gray-600">
+                E-posta hesaplarını birleştirme kılavuzu
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button 
+                size="lg" 
+                className="w-full h-12 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl"
+                onClick={() => window.open("/email-merge-guide.pdf", "_blank")}
+              >
+                <Award className="h-5 w-5 mr-2" />
+                Rehberi Görüntüle
+              </Button>
+            </CardContent>
+          </Card>
+
           
         </div>
 
