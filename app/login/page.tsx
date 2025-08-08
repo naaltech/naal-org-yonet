@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import HCaptcha from '@hcaptcha/react-hcaptcha'
+import { Turnstile } from '@marsidev/react-turnstile'
 import { Eye, EyeOff } from 'lucide-react'
 
 export default function LoginPage() {
@@ -21,7 +21,7 @@ export default function LoginPage() {
   const [captchaToken, setCaptchaToken] = useState<string | null>(null)
   const router = useRouter()
   const { user, loading: authLoading } = useAuth()
-  const captchaRef = useRef<HCaptcha>(null)
+  const turnstileRef = useRef<any>(null)
 
   // If user is already authenticated, redirect to dashboard
   useEffect(() => {
@@ -55,7 +55,7 @@ export default function LoginPage() {
         setError(error.message)
         // Reset captcha on error
         setCaptchaToken(null)
-        captchaRef.current?.resetCaptcha()
+        turnstileRef.current?.reset()
       } else if (data.user) {
         // Redirect will happen automatically via useEffect when user state updates
         router.push('/dashboard')
@@ -64,7 +64,7 @@ export default function LoginPage() {
       setError('An unexpected error occurred')
       // Reset captcha on error
       setCaptchaToken(null)
-      captchaRef.current?.resetCaptcha()
+      turnstileRef.current?.reset()
     } finally {
       setLoading(false)
     }
@@ -77,6 +77,11 @@ export default function LoginPage() {
 
   const onCaptchaExpire = () => {
     setCaptchaToken(null)
+  }
+
+  const onCaptchaError = () => {
+    setCaptchaToken(null)
+    setError('Güvenlik doğrulamasında hata oluştu. Lütfen tekrar deneyin.')
   }
 
   // Show loading while checking auth status
@@ -172,14 +177,14 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              {/* hCaptcha */}
+              {/* Cloudflare Turnstile */}
               <div className="flex justify-center">
-                <HCaptcha
-                  ref={captchaRef}
-                  sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
-                  onVerify={onCaptchaVerify}
+                <Turnstile
+                  ref={turnstileRef}
+                  siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+                  onSuccess={onCaptchaVerify}
                   onExpire={onCaptchaExpire}
-                  theme="light"
+                  onError={onCaptchaError}
                 />
               </div>
               
