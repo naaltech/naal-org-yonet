@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/auth-context'
 import { supabase } from '@/lib/supabase'
@@ -9,14 +9,19 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import HCaptcha from '@hcaptcha/react-hcaptcha'
+import { Eye, EyeOff } from 'lucide-react'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null)
   const router = useRouter()
   const { user, loading: authLoading } = useAuth()
+  const captchaRef = useRef<HCaptcha>(null)
 
   // If user is already authenticated, redirect to dashboard
   useEffect(() => {
@@ -30,23 +35,48 @@ export default function LoginPage() {
     setLoading(true)
     setError(null)
 
+    // Check if captcha is completed
+    if (!captchaToken) {
+      setError('Lütfen güvenlik doğrulamasını tamamlayın')
+      setLoading(false)
+      return
+    }
+
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
+        options: {
+          captchaToken
+        }
       })
 
       if (error) {
         setError(error.message)
+        // Reset captcha on error
+        setCaptchaToken(null)
+        captchaRef.current?.resetCaptcha()
       } else if (data.user) {
         // Redirect will happen automatically via useEffect when user state updates
         router.push('/dashboard')
       }
     } catch (err) {
       setError('An unexpected error occurred')
+      // Reset captcha on error
+      setCaptchaToken(null)
+      captchaRef.current?.resetCaptcha()
     } finally {
       setLoading(false)
     }
+  }
+
+  const onCaptchaVerify = (token: string) => {
+    setCaptchaToken(token)
+    setError(null)
+  }
+
+  const onCaptchaExpire = () => {
+    setCaptchaToken(null)
   }
 
   // Show loading while checking auth status
@@ -116,22 +146,47 @@ export default function LoginPage() {
                 <Label htmlFor="password" className="text-sm font-medium text-gray-700">
                   Şifre
                 </Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="h-11 border-gray-300 focus:border-gray-500 focus:ring-gray-500/20 transition-all duration-200"
-                  required
-                  disabled={loading}
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="h-11 border-gray-300 focus:border-gray-500 focus:ring-gray-500/20 transition-all duration-200 pr-10"
+                    required
+                    disabled={loading}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors duration-200"
+                    disabled={loading}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* hCaptcha */}
+              <div className="flex justify-center">
+                <HCaptcha
+                  ref={captchaRef}
+                  sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
+                  onVerify={onCaptchaVerify}
+                  onExpire={onCaptchaExpire}
+                  theme="light"
                 />
               </div>
               
               <Button 
                 type="submit" 
                 className="w-full h-11 bg-gray-900 hover:bg-gray-800 focus:ring-gray-500/20 text-white font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl disabled:opacity-50" 
-                disabled={loading}
+                disabled={loading || !captchaToken}
               >
                 {loading ? (
                   <span className="flex items-center gap-2">
@@ -141,6 +196,8 @@ export default function LoginPage() {
                     </svg>
                     Giriş yapılıyor...
                   </span>
+                ) : !captchaToken ? (
+                  'Güvenlik doğrulamasını tamamlayın'
                 ) : (
                   'Giriş Yap'
                 )}
