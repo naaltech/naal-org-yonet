@@ -85,7 +85,7 @@ export default function LoginPage() {
               Yönetici Giriş
             </CardTitle>
             <CardDescription className="text-center text-gray-600">
-              Kulüp bilgilerinizi, kısa linklerini ve sertifikalarınızı tek bir yerden yönetin.
+              Kulüp bilgilerinizi, kısa linklerinizi ve sertifikalarınızı tek bir yerden yönetin.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
