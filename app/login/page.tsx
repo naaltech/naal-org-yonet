@@ -216,6 +216,9 @@ export default function LoginPage() {
           <p className="text-sm text-gray-500">
             Nevzat Ayaz Etkileşim Ağı Kulüp Yönetim Sistemi
           </p>
+          <p className="text-xs text-gray-400 mt-2">
+            Açık Kaynak: <a href="https://github.com/naaltech/naal-org-yonet" target="_blank" rel="noopener noreferrer" className="hover:text-gray-600 underline">GitHub</a>
+          </p>
         </div>
       </div>
     </div>
