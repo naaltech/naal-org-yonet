@@ -44,13 +44,19 @@ npm install
 3. **Ortam değişkenlerini ayarlayın:**
 `.env.local` dosyasını oluşturun:
 ```bash
-# Supabase Configuration
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+# Supabase Keys
+NEXT_PUBLIC_SUPABASE_URL=
+SUPABASE_SERVICE_ROLE_KEY=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
 
-# Discord Webhook (opsiyonel)
-NEXT_PUBLIC_DISCORD_WEBHOOK_URL=your_discord_webhook_url
+# Catbox User Hash
+NEXT_PUBLIC_CATBOX_USERHASH=
+
+# ImageBB API Key
+IBB_API_KEY=
+
+# Cloudflare Turnstile Site Key
+NEXT_PUBLIC_TURNSTILE_SITE_KEY=
 ```
 
 4. **Geliştirme sunucusunu başlatın:**
@@ -117,7 +123,9 @@ Gerekli tablolar:
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase proje URL'i |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anonim API anahtarı |
 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase servis rolü anahtarı |
-| `NEXT_PUBLIC_DISCORD_WEBHOOK_URL` | Discord bildirim webhook'u |
+| `NEXT_PUBLIC_CATBOX_USERHASH` | CATBOX.MOE Userhash |
+| `IBB_API_KEY` | IBB.CO API anahtarı |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Cloudflare Turnstile Website Anahtarı |
 
 ## 🚀 Deployment
 
