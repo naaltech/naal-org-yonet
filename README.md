@@ -1,52 +1,51 @@
-# Nevzat Ayaz Anadolu Lisesi Kulüp Yönetim Sistemi
+# Nevzat Ayaz Anatolian High School Club Management System
 
-Modern bir kulüp yönetim sistemi. Kulüp üyeleri için sertifika oluşturma, kulüp bilgilerini yönetme ve URL yönlendirme özelliklerini içeren web uygulaması.
+A modern club management system. A web application that includes certificate creation for club members, club information management, and URL redirection features.
 
-## 🚀 Özellikler
+## 🚀 Features
 
-- **Sertifika Yönetimi**: Dijital ve PDF sertifika oluşturma ve yönetme
-- **Kulüp Bilgileri**: Kulüp profil bilgilerini düzenleme
-- **URL Yönetimi**: URL yönlendirme sistemi
-- **Yetki Tabanlı Erişim**: Admin ve kullanıcı rolleri
-- **Modern UI**: Tailwind CSS ve shadcn/ui ile tasarlanmış kullanıcı arayüzü
-- **Responsive Tasarım**: Mobil ve masaüstü uyumlu
+- **Certificate Management**: Create and manage digital and PDF certificates
+- **Club Information**: Edit club profile information
+- **URL Management**: URL redirection system
+- **Role-Based Access**: Admin and user roles
+- **Modern UI**: User interface designed with Tailwind CSS and shadcn/ui
+- **Responsive Design**: Mobile and desktop compatible
 
-## 🛠️ Teknolojiler
+## 🛠️ Technologies
 
 - **Frontend**: Next.js 15, React 19, TypeScript
 - **Styling**: Tailwind CSS, shadcn/ui
 - **Backend**: Supabase (Authentication, Database)
 - **Forms**: React Hook Form, Zod
 - **Icons**: Lucide React
-- **Deployment**: Vercel (önerilen)
+- **Deployment**: Vercel (recommended)
 
-## 📋 Gereksinimler
+## 📋 Requirements
 
 - Node.js 18+ 
 - npm/pnpm/yarn
-- Supabase hesabı
+- Supabase account
 
-## 🏃‍♂️ Kurulum
+## 🏃‍♂️ Installation
 
-1. **Projeyi klonlayın:**
+1. **Clone the project:**
 ```bash
-git clone https://github.com/naaltech/naal-org-yonet.git
+git clone https://github.com/naaltech/naal-org-admin.git
 cd naal-org-yonet
 ```
 
-2. **Bağımlılıkları yükleyin:**
+2. **Install dependencies:**
 ```bash
 pnpm install
-# veya
+# or
 npm install
 ```
 
-3. **Ortam değişkenlerini ayarlayın:**
-`.env.local` dosyasını oluşturun:
+3. **Set environment variables:**
+Create a `.env.local` file:
 ```bash
 # Supabase Keys
 NEXT_PUBLIC_SUPABASE_URL=
-SUPABASE_SERVICE_ROLE_KEY=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 
 # Catbox User Hash
@@ -59,83 +58,82 @@ IBB_API_KEY=
 NEXT_PUBLIC_TURNSTILE_SITE_KEY=
 ```
 
-4. **Geliştirme sunucusunu başlatın:**
+4. **Start the development server:**
 ```bash
 pnpm dev
-# veya
+# or
 npm run dev
 ```
 
-Uygulama [http://localhost:3000](http://localhost:3000) adresinde çalışacaktır.
+The application will run at [http://localhost:3000](http://localhost:3000).
 
-## 📁 Proje Yapısı
+## 📁 Project Structure
 
 ```
 ├── app/                    # Next.js App Router
-│   ├── certificates/       # Sertifika yönetimi
-│   ├── club-info/         # Kulüp bilgileri
-│   ├── dashboard/         # Ana panel
-│   ├── login/             # Giriş sayfası
-│   └── urls/              # URL yönetimi
-├── components/            # UI bileşenleri
-│   └── ui/               # shadcn/ui bileşenleri
-├── contexts/             # React Context'leri
-├── hooks/                # Custom Hook'lar
-├── lib/                  # Yardımcı fonksiyonlar
-└── public/               # Statik dosyalar
+│   ├── certificates/       # Certificate management
+│   ├── club-info/         # Club information
+│   ├── dashboard/         # Main dashboard
+│   ├── login/             # Login page
+│   └── urls/              # URL management
+├── components/            # UI components
+│   └── ui/               # shadcn/ui components
+├── contexts/             # React Contexts
+├── hooks/                # Custom Hooks
+├── lib/                  # Utility functions
+└── public/               # Static files
 ```
 
-## 🎯 Kullanım
+## 🎯 Usage
 
-### Giriş Yapma
-- Kulüp email'i ile Supabase authentication üzerinden giriş yapın
-- Admin hesabı: `admin@naal.org.tr`
+### Logging In
+- Log in with club email through Supabase authentication
+- Admin account: `admin@naal.org.tr`
 
-### Sertifika Oluşturma
-1. Dashboard'dan "Sertifika Oluştur" seçeneğine tıklayın
-2. Dijital sertifika veya PDF sertifika seçin
-3. Gerekli bilgileri doldurun
-4. Sertifikayı oluşturun
+### Creating Certificates
+1. Click on "Create Certificate" option from the dashboard
+2. Choose digital certificate or PDF certificate
+3. Fill in the required information
+4. Create the certificate
 
-### Kulüp Bilgilerini Düzenleme
-1. Dashboard'dan "Kulüp Bilgileri" seçeneğine tıklayın
-2. Logo, açıklama, Instagram hesapları vb. bilgileri güncelleyin
-3. Değişiklikleri kaydedin
+### Editing Club Information
+1. Click on "Club Information" option from the dashboard
+2. Update information such as logo, description, Instagram accounts, etc.
+3. Save the changes
 
-### Admin Özellikleri
-- Tüm kulüplerin sertifikalarını görüntüleme
-- Tüm kulüp bilgilerini düzenleme
-- Sistem genelinde yönetim
+### Admin Features
+- View all clubs' certificates
+- Edit all club information
+- System-wide management
 
-## 🔧 Yapılandırma
+## 🔧 Configuration
 
-### Supabase Veritabanı
+### Supabase Database
 
-Gerekli tablolar:
-- `clubs`: Kulüp bilgileri
-- `cert`: Dijital sertifikalar  
-- `cert_pdf`: PDF sertifikaları
+Required tables:
+- `clubs`: Club information
+- `cert`: Digital certificates  
+- `cert_pdf`: PDF certificates
 
-### Ortam Değişkenleri
+### Environment Variables
 
-| Değişken | Açıklama |
-|----------|----------|
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase proje URL'i |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anonim API anahtarı |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase servis rolü anahtarı |
+| Variable | Description |
+|----------|-------------|
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anonymous API key |
 | `NEXT_PUBLIC_CATBOX_USERHASH` | CATBOX.MOE Userhash |
-| `IBB_API_KEY` | IBB.CO API anahtarı |
-| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Cloudflare Turnstile Website Anahtarı |
+| `IBB_API_KEY` | IBB.CO API key |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Cloudflare Turnstile Website Key |
 
 ## 🚀 Deployment
 
-### Vercel ile Deploy
+### Deploy with Vercel
 
-1. GitHub repository'nizi Vercel'e bağlayın
-2. Ortam değişkenlerini Vercel dashboard'unda ekleyin
-3. Deploy edin
+1. Connect your GitHub repository to Vercel
+2. Add environment variables in the Vercel dashboard
+3. Deploy
 
-### Manuel Deploy
+### Manual Deployment
 
 ```bash
 # Build
@@ -145,28 +143,6 @@ pnpm build
 pnpm start
 ```
 
-## 📝 Geliştirme
+## 📄 License
 
-### Kod Standartları
-- TypeScript kullanın
-- ESLint kurallarına uyun
-- Tailwind CSS sınıflarını kullanın
-- shadcn/ui bileşenlerini tercih edin
-
-### Yeni Özellik Ekleme
-1. Feature branch oluşturun
-2. Geliştirmeyi yapın
-3. Test edin
-4. Pull request açın
-
-## 🤝 Katkıda Bulunma
-
-1. Fork edin
-2. Feature branch oluşturun (`git checkout -b feature/AmazingFeature`)
-3. Commit edin (`git commit -m 'Add some AmazingFeature'`)
-4. Push edin (`git push origin feature/AmazingFeature`)
-5. Pull Request açın
-
-## 📄 Lisans
-
-Bu proje MIT lisansı altında lisanslanmıştır. Detaylar için `LICENSE` dosyasına bakın.
+This project is licensed under the MIT License. See the `LICENSE` file for details.
