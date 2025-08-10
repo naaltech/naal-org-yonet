@@ -1,3 +1,4 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/66759a92-d1d0-4acf-b05b-7c354b819ce0/deploy-status)](https://app.netlify.com/projects/nevzatayaz-admin/deploys)
 # Nevzat Ayaz Anatolian High School Club Management System
 
 A modern club management system. A web application that includes certificate creation for club members, club information management, and URL redirection features.
