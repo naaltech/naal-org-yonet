@@ -32,7 +32,7 @@ A modern club management system. A web application that includes certificate cre
 1. **Clone the project:**
 ```bash
 git clone https://github.com/naaltech/naal-org-admin.git
-cd naal-org-yonet
+cd naal-org-admin
 ```
 
 2. **Install dependencies:**
