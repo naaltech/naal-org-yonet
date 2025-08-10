@@ -19,7 +19,7 @@ A modern club management system. A web application that includes certificate cre
 - **Backend**: Supabase (Authentication, Database)
 - **Forms**: React Hook Form, Zod
 - **Icons**: Lucide React
-- **Deployment**: Vercel (recommended)
+- **Deployment**: Netlify (recommended)
 
 ## 📋 Requirements
 
