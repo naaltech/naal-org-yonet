@@ -85,36 +85,7 @@ The application will run at [http://localhost:3000](http://localhost:3000).
 └── public/               # Static files
 ```
 
-## 🎯 Usage
-
-### Logging In
-- Log in with club email through Supabase authentication
-- Admin account: `admin@naal.org.tr`
-
-### Creating Certificates
-1. Click on "Create Certificate" option from the dashboard
-2. Choose digital certificate or PDF certificate
-3. Fill in the required information
-4. Create the certificate
-
-### Editing Club Information
-1. Click on "Club Information" option from the dashboard
-2. Update information such as logo, description, Instagram accounts, etc.
-3. Save the changes
-
-### Admin Features
-- View all clubs' certificates
-- Edit all club information
-- System-wide management
-
 ## 🔧 Configuration
-
-### Supabase Database
-
-Required tables:
-- `clubs`: Club information
-- `cert`: Digital certificates  
-- `cert_pdf`: PDF certificates
 
 ### Environment Variables
 
@@ -128,10 +99,10 @@ Required tables:
 
 ## 🚀 Deployment
 
-### Deploy with Vercel
+### Deploy with Netlify
 
-1. Connect your GitHub repository to Vercel
-2. Add environment variables in the Vercel dashboard
+1. Connect your GitHub repository to Netlify
+2. Add environment variables in the Netlify dashboard
 3. Deploy
 
 ### Manual Deployment
