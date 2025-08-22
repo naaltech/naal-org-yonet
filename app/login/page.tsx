@@ -217,7 +217,7 @@ export default function LoginPage() {
             Nevzat Ayaz Etkileşim Ağı Kulüp Yönetim Sistemi
           </p>
           <p className="text-sm text-gray-500">
-            Bu proje <a href="https://raw.githubusercontent.com/naaltech/website/refs/heads/main/LICENSE" className="hover:text-gray-600 underline">GPLv3</a> ile lisanslanmıştır.
+            Bu proje <a href="https://raw.githubusercontent.com/naaltech/naal-org-admin/refs/heads/main/LICENSE" className="hover:text-gray-600 underline">GPLv3</a> ile lisanslanmıştır.
           </p>
           <p className="text-xs text-gray-400 mt-2">
             Açık Kaynak: <a href="https://github.com/naaltech/naal-org-admin" target="_blank" rel="noopener noreferrer" className="hover:text-gray-600 underline">GitHub</a>
