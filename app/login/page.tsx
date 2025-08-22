@@ -214,7 +214,7 @@ export default function LoginPage() {
         {/* Footer */}
         <div className="text-center mt-8">
           <p className="text-sm text-gray-500">
-            Nevzat Ayaz Anadolu Lisesi Etkileşim Ağı Kulüp Yönetim Sistemi
+            Nevzat Ayaz Anadolu Lisesi Etkileşim Ağı<br/>Kulüp Yönetim Sistemi
           </p>
           <p className="text-sm text-gray-500">
             Bu proje <a href="https://raw.githubusercontent.com/naaltech/naal-org-admin/refs/heads/main/LICENSE" className="hover:text-gray-600 underline">GPLv3</a> ile lisanslanmıştır.
